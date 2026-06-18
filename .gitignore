@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OpenCode tooling (caché local, no se sube)
+.atl/
+
+# Build / cache
+dist/
+build/
+.cache/
+.tmp/
+
+# Python venv (legacy artifact)
+venv/
+__pycache__/
+*.pyc
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Scripts de Windows específicos del entorno local
+abrir_proyecto.bat
+
+# Guía de demostración (uso local del alumno)
+DEMO.md
+
+# Backups y archivos temporales
+*.tmp
+*.bak
+*.swp

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechLab API Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>TechLab API Dashboard</h1>
+      <button id="logoutBtn" class="hidden">Cerrar Sesión</button>
+    </header>
+
+    <!-- Sección de Login -->
+    <section id="loginSection" class="card">
+      <h2>Iniciar Sesión</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email Admin</label>
+          <input type="email" id="email" required placeholder="admin@ejemplo.com">
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" required placeholder="********">
+        </div>
+        <button type="submit">Ingresar</button>
+      </form>
+      <div id="loginError" class="error-msg hidden"></div>
+    </section>
+
+    <!-- Sección Principal (Dashboard) -->
+    <section id="dashboardSection" class="hidden">
+      
+      <!-- Sección de Tests -->
+      <div class="card tests-card">
+        <h2>Tests Automatizados</h2>
+        <p>Ejecuta los tests de la API para validar el funcionamiento (Nota: Esto limpiará la base de datos).</p>
+        <button id="runTestsBtn" class="btn-secondary">Ejecutar Tests</button>
+        <div id="testsOutput" class="terminal hidden"></div>
+      </div>
+
+      <!-- Crear Producto -->
+      <div class="card">
+        <h2>Crear Producto</h2>
+        <form id="createProductForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prodName">Nombre</label>
+              <input type="text" id="prodName" required>
+            </div>
+            <div class="form-group">
+              <label for="prodPrice">Precio</label>
+              <input type="number" id="prodPrice" step="0.01" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prodStock">Stock (opcional)</label>
+              <input type="number" id="prodStock">
+            </div>
+            <div class="form-group">
+              <label for="prodCategory">Categoría (opcional)</label>
+              <input type="text" id="prodCategory">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="prodDesc">Descripción (opcional)</label>
+            <textarea id="prodDesc" rows="2"></textarea>
+          </div>
+          <button type="submit">Crear Producto</button>
+        </form>
+        <div id="createError" class="error-msg hidden"></div>
+      </div>
+
+      <!-- Lista de Productos -->
+      <div class="card">
+        <div class="header-action">
+          <h2>Lista de Productos</h2>
+          <button id="refreshBtn" class="btn-icon" title="Refrescar">↻</button>
+        </div>
+        <div class="table-responsive">
+          <table id="productsTable">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="productsBody">
+              <!-- Renderizado dinámico -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
