@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const BASE = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:${process.env.PORT || 3000}`;
+const BASE = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
 let token = '';
 const createdIds = [];
 

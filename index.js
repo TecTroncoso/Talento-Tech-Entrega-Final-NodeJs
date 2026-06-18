@@ -24,7 +24,11 @@ app.use('/auth', authRoutes);
 
 // Endpoint para ejecutar tests (Llamado desde el frontend)
 app.get('/api/tests/run', (req, res) => {
-  exec('npm run test', (error, stdout, stderr) => {
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+  const host = req.headers['x-forwarded-host'] || req.get('host');
+  const baseUrl = `${protocol}://${host}`;
+
+  exec('npm run test', { env: { ...process.env, BASE_URL: baseUrl } }, (error, stdout, stderr) => {
     res.json({ error: error ? error.message : null, stdout, stderr });
   });
 });
