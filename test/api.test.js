@@ -1,6 +1,7 @@
 import { describe, it, before } from 'node:test';
 import assert from 'node:assert/strict';
-import 'dotenv/config';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const BASE = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:${process.env.PORT || 3000}`;
 let token = '';
