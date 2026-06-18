@@ -44,7 +44,7 @@
 
       <!-- Crear Producto -->
       <div class="card">
-        <h2>Crear Producto</h2>
+        <h2 id="formTitle">Crear Producto</h2>
         <form id="createProductForm">
           <div class="form-row">
             <div class="form-group">
@@ -70,7 +70,10 @@
             <label for="prodDesc">Descripción (opcional)</label>
             <textarea id="prodDesc" rows="2"></textarea>
           </div>
-          <button type="submit">Crear Producto</button>
+          <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button type="submit" id="submitBtn">Crear Producto</button>
+            <button type="button" id="cancelEditBtn" class="btn-secondary hidden" onclick="cancelEdit()">Cancelar</button>
+          </div>
         </form>
         <div id="createError" class="error-msg hidden"></div>
       </div>

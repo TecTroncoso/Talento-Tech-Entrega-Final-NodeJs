@@ -14,9 +14,13 @@ const createProductForm = document.getElementById('createProductForm');
 const createError = document.getElementById('createError');
 const productsBody = document.getElementById('productsBody');
 const refreshBtn = document.getElementById('refreshBtn');
+const formTitle = document.getElementById('formTitle');
+const submitBtn = document.getElementById('submitBtn');
+const cancelEditBtn = document.getElementById('cancelEditBtn');
 
 // State
 let token = localStorage.getItem('token');
+let editProductId = null;
 
 // Initialize
 function init() {
@@ -138,6 +142,7 @@ function renderProducts(products) {
       <td>${p.stock !== undefined ? p.stock : '-'}</td>
       <td>${p.category || '-'}</td>
       <td>
+        <button class="btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem; margin-right: 0.5rem;" onclick='editProduct(${JSON.stringify(p).replace(/'/g, "&apos;")})'>Modificar</button>
         <button class="btn-danger" onclick="deleteProduct('${p.id}')">Eliminar</button>
       </td>
     `;
@@ -160,8 +165,11 @@ createProductForm.addEventListener('submit', async (e) => {
   Object.keys(payload).forEach(k => payload[k] === undefined && delete payload[k]);
 
   try {
-    const res = await fetch(`${API_URL}/api/products/create`, {
-      method: 'POST',
+    const url = editProductId ? `${API_URL}/api/products/${editProductId}` : `${API_URL}/api/products/create`;
+    const method = editProductId ? 'PUT' : 'POST';
+
+    const res = await fetch(url, {
+      method,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -171,16 +179,39 @@ createProductForm.addEventListener('submit', async (e) => {
     const data = await res.json();
 
     if (!res.ok) {
-      const msg = data.details ? data.details.map(d => d.message).join(', ') : (data.error || 'Error al crear');
+      const msg = data.details ? data.details.map(d => d.message).join(', ') : (data.error || 'Error al guardar');
       throw new Error(msg);
     }
 
-    createProductForm.reset();
+    cancelEdit();
     loadProducts();
   } catch (err) {
     showError(createError, err.message);
   }
 });
+
+// Edit Product
+window.editProduct = (p) => {
+  editProductId = p.id;
+  document.getElementById('prodName').value = p.name;
+  document.getElementById('prodPrice').value = p.price;
+  document.getElementById('prodStock').value = p.stock !== undefined ? p.stock : '';
+  document.getElementById('prodCategory').value = p.category || '';
+  document.getElementById('prodDesc').value = p.description || '';
+
+  formTitle.textContent = 'Modificar Producto';
+  submitBtn.textContent = 'Guardar Cambios';
+  cancelEditBtn.classList.remove('hidden');
+  document.getElementById('prodName').focus();
+};
+
+window.cancelEdit = () => {
+  editProductId = null;
+  createProductForm.reset();
+  formTitle.textContent = 'Crear Producto';
+  submitBtn.textContent = 'Crear Producto';
+  cancelEditBtn.classList.add('hidden');
+};
 
 // Delete Product
 window.deleteProduct = async (id) => {
